@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import useWebSocket from 'react-use-websocket';
+import AnimatedNumber from 'react-animated-number';
+import './App.css'
 
 function App() {
   const [number, setNumber] = useState(0)
@@ -15,14 +17,23 @@ function App() {
   });
 
   return (
-    <div>
-      Hello World!
+    <div className='container'>
+      <AnimatedNumber
+        component="text"
+        value={number}
+        style={{
+          transition: '0.8s ease-out',
+          fontSize: 96,
+          transitionProperty:
+            'background-color, color, opacity'
+        }}
+        duration={300}
+        stepPrecision={1}
+      />
 
       <button onClick={() => sendMessage("Sent from button")} >
         Test Animation
       </button>
-
-      {number}
     </div>
   );
 }
