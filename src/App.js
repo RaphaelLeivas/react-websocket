@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import useWebSocket from 'react-use-websocket';
-import AnimatedNumber from 'react-animated-number';
 import './App.css'
+
+const WS_SERVER_IP_CASA = '192.168.0.71'
+const WS_SERVER_PORT = '3001'
 
 function App() {
   const [number, setNumber] = useState(0)
-  const { sendMessage } = useWebSocket('ws://localhost:3001/', {
+  const { sendMessage } = useWebSocket(`ws://${WS_SERVER_IP_CASA}:${WS_SERVER_PORT}/`, {
     onOpen: () => console.log(`Connected to App WS`),
     onMessage: () => {
       setNumber(prev => prev + 1)
@@ -18,22 +20,21 @@ function App() {
 
   return (
     <div className='container'>
-      <AnimatedNumber
-        component="text"
-        value={number}
-        style={{
-          transition: '0.8s ease-out',
-          fontSize: 96,
-          transitionProperty:
-            'background-color, color, opacity'
-        }}
-        duration={300}
-        stepPrecision={1}
-      />
+      <p className='counter'>{number}</p>
 
-      <button onClick={() => sendMessage("Sent from button")} >
-        Test Animation
-      </button>
+      <div className='buttonsContainer'>
+        <button className='button' onClick={() => sendMessage("Sent from button")} >
+          Simulate
+        </button>
+
+        <button className='button' onClick={() => setNumber(prev => prev + 1)} >
+          Increase Counter
+        </button>
+
+        <button className='button' onClick={() => setNumber(0)} >
+          Reset
+        </button>
+      </div>
     </div>
   );
 }
